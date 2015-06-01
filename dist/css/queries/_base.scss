@@ -1,0 +1,449 @@
+.flex{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+img{
+	max-width: 100%;
+}
+
+a{
+	color: inherit;
+	text-decoration: none;
+}
+
+
+*{
+	font-family: $roboto;
+}
+
+.light-text{
+	color: $light-grey;
+}
+
+.dark-text{
+	color: black;
+}
+
+.center-80{
+	justify-content:center;
+
+	&>*{
+		flex: 0 80%;
+	}
+}
+
+.h_holder-dark{
+	background-color: rgba(lighten($dark-green,10%),$trans);
+}
+
+.h_holder-mid{
+	background-color: rgba(lighten($mid-green-1,10%),$trans);
+}
+
+.row-5{
+
+	>div{
+		margin: 0 0.5rem;
+		flex: 1 200px;
+		min-width: 10rem;
+		//max-width: calc(20% - 2rem);
+		margin-bottom: 1rem;
+	}
+}
+
+h1{
+	font-size: 1.75rem;
+	font-weight: 300;
+	padding: 0.875rem 0;
+}
+
+body, html{
+	height: 100%;
+	font-size: 100%;
+}
+
+header{
+	width: 100%;
+	position: fixed;
+	background-color: rgba(black,$trans);
+	z-index: 20;
+	font-weight: 300;
+	padding: 0.5rem 0;
+
+	.logo{
+		width: $sb;
+		flex: 0 $sb;
+		border-right: $border-green;
+		justify-content: center;
+		align-items: center;
+		user-select: none;
+
+		a{
+			align-items: center;
+			img{
+				width: 3rem;
+				margin-right: 1rem;
+
+			}
+
+			span{
+				color: $bright-green;
+				font-size: 1.5rem;
+			}
+		}
+
+	}
+
+	.search_bar{
+		flex: 1;
+		justify-content: center;
+
+		input{
+			border: none;
+			font-size: 1.25rem;
+			padding: 0.5rem 2rem;
+			font-weight: inherit;
+			width: 60%;
+			box-shadow: $shadow;
+		}
+	}
+
+}
+
+nav{
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: $sb;
+	background-color: rgba(black,$trans);
+	//border-right: $border-green;
+	z-index: 15;
+	padding-top: 1.5 * $unit;
+
+	ul{
+
+		li{
+			color: $light-grey;
+			font-size: 1rem;
+			font-weight: 300;
+			
+
+			a{
+				display: inline-block;
+				width: 100%;
+				padding: 0.6rem 0 0.6rem 1rem;
+				
+				&.active{
+					background-color: rgba($bright-green,1);
+				}
+			}
+
+
+
+			&:hover{
+				background-color: rgba($mid-green-1,1);
+			}
+		}
+
+		.has-children:after{
+			content:"";
+		}
+
+		ul {
+			padding: 0.6rem 0;
+
+			li{
+				padding-left: 3rem;
+				font-size: 1rem;
+			}
+		}
+	}
+
+	.now_playing_cover{
+		width: $sb;
+		height: $sb;
+		bottom: 0;
+		position: absolute;
+	}
+}
+
+.bottom_bar{
+	z-index: 10;
+	width: 100%;
+	//border-top: $border-green;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	height: $unit;
+	background-color: rgba(black,0.9);
+	padding: 0.5rem 0;
+
+	.now_playing-title{
+		flex:1;
+		padding-left: $sbpush;
+		font-size: 1.25rem;
+		font-weight: 300;
+		align-items: center;
+
+		.now_playing-song{
+
+		}
+
+		.now_playing-artist{
+
+		}
+	}
+
+	.now_playing-time{
+
+		border-left: $border-green;
+		padding: 0 $unit / 2;
+		align-items: center;
+		
+
+		.now_playing-elapsed{
+			
+		}
+
+		.now_playing-total{
+
+		}
+	}
+
+	.controls{
+		flex: 0 $unit * 7;
+		border-left: $border-green;
+		justify-content: space-around;
+		align-items: center;
+		padding: 0 2rem 0 1rem;
+		
+	}
+}
+
+
+.seek_bar{
+	position: fixed;
+	width: 100%;
+	bottom: $unit;
+	left: 0;
+	padding-left: $sb;
+	z-index: 20;
+	height: 6px;
+	transition: $transition;
+
+	&:hover{
+		height: 0.75rem;
+		
+		.seek-main .ui-slider .ui-slider-handle{
+			height: 1.25rem;
+		}
+	}
+
+	.seek-main{
+		position: relative;
+		height: 100%;
+
+		.ui-slider{
+			width: 100%;
+			height: 100%;
+			//background-color: rgba($mid-green-2,1);
+			position: relative;
+			z-index: 5;
+
+			.ui-slider-handle{
+				height: 6px;
+				width: 0.75rem;
+				position: absolute;
+				background-color: $light-grey;
+				//transform: translateY(-50%);
+				box-shadow: $shadow;
+				bottom: 0;
+				transition: height 0.3s ease-in-out;
+			}
+
+		}
+	}
+
+	.load_progress{
+		position: absolute;
+		height: 100%;
+		width: 0%;
+		left: 0;
+		top: 0;
+		background-color: rgba($mid-green-2,1);
+		transition: $transition;
+		z-index: 0;
+	}
+
+}
+
+main{
+
+	background-color: $bg-grey;
+	width: 100%;
+	min-height: 100vh;
+	padding: 0 0 $unit $sb;
+
+	.rec-hero-bg{
+		width: 100%;
+		position: relative;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+	}
+
+	.rec-hero-small{
+		width: 100%;
+		position: relative;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		padding-top: $unit * 4;
+	}
+	
+	.recommend-top{
+		width: 100%;
+		//background-color: rgba($mid-green-2,1);
+		border-bottom: $border-green;
+
+		.rec-hero{
+			width: 100%;
+			padding: $unit * 2 0 $unit / 2;
+			min-height: $unit * 8;
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
+		}
+	}
+
+	.coloured_block{
+		width: 100%;
+		padding: $unit / 2 0;
+	}
+
+	.coloured_block-dark{
+		background-color: rgba($dark-green,$trans);
+	}
+
+	.coloured_block-mid{
+		background-color: rgba($mid-green-1,$trans);
+	}
+
+	.coloured_block-light{
+		background-color: rgba($bright-green,$trans);
+	}
+
+	.hero-sub-controls{
+
+	}
+
+}
+
+.cover_list{
+	width: 100%;
+	padding: $unit 0;
+	
+	.cover_container{
+		flex: 0 80%;
+		
+	}
+}
+
+.album{
+	box-shadow: $shadow;
+
+	.album_image{
+		overflow: hidden;
+		width: 100%;
+		padding-top: 100%;
+		position: relative;
+
+
+		img{
+			display: block;
+			height: 100%;
+			position: absolute;
+			top: 0;
+		}
+	}
+
+	.album_info{
+
+		padding: 0.5rem;
+
+		.album_name{
+			font-size: 1.25rem;
+			padding-bottom: 0.5rem;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+	}
+}
+
+.album-light{
+
+	.album_info{
+		color:$light-grey;
+		background-color: $bright-green;
+	}
+}
+
+.album-dark{
+
+	.album_info{
+		color:$light-grey;
+		background-color: $mid-green-2;
+	}
+}
+
+
+
+.icon{
+	height: 2rem;
+	width: 2rem;
+	position: relative;
+
+	&:before{
+		content: "";
+		height: 100%;
+		width: 100%;
+		position: absolute;
+	}
+}
+
+.icon-play:before{
+	background-image: url(../../media/icons/play.svg);
+}
+
+.icon-pause:before{
+	background-image: url(../../media/icons/pause.svg);
+}
+
+.icon-fwd:before{
+	background-image: url(../../media/icons/fwd.svg);
+}
+
+.icon-rwd:before{
+	background-image: url(../../media/icons/rwd.svg);
+}
+
+.icon-rpt:before{
+	background-image: url(../../media/icons/rpt.svg);
+}
+
+.icon-shuffle:before{
+	background-image: url(../../media/icons/shuffle.svg);
+}
+
+.icon-vol:before{
+	background-image: url(../../media/icons/vol.svg);
+}
+
+.icon-arrow:before{
+	background-image: url(../../media/icons/play.svg);
+	height: 1rem;
+	width: 1rem;
+}
