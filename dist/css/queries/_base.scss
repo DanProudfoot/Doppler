@@ -41,16 +41,7 @@ a{
 	background-color: rgba(lighten($mid-green-1,10%),$trans);
 }
 
-.row-5{
 
-	>div{
-		margin: 0 0.5rem;
-		flex: 1 200px;
-		min-width: 10rem;
-		//max-width: calc(20% - 2rem);
-		margin-bottom: 1rem;
-	}
-}
 
 h1{
 	font-size: 1.75rem;
@@ -351,34 +342,54 @@ main{
 	}
 }
 
+.row-5{
+
+	>div{
+		margin: 0;
+		flex: 1 300px;
+		min-width: 10rem;
+	}
+}
+
 .album{
-	box-shadow: $shadow;
+	user-select: none;
+	cursor: pointer;
 
 	.album_image{
 		overflow: hidden;
 		width: 100%;
 		padding-top: 100%;
 		position: relative;
-
-
-		img{
-			display: block;
-			height: 100%;
-			position: absolute;
-			top: 0;
-		}
+		background-size: cover;
+		background-position: center;
+		background-repeat: none;
 	}
 
 	.album_info{
+		padding: 0 1rem 0.5rem;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
 
-		padding: 0.5rem;
-
-		.album_name{
-			font-size: 1.25rem;
-			padding-bottom: 0.5rem;
+		.album_name, .album_artist{
 			text-overflow: ellipsis;
 			overflow: hidden;
 			white-space: nowrap;
+			background-color: rgba(black,0.9);
+			display: inline-block;
+			padding: 0.5rem 0.5rem;
+			font-weight: 200;
+			max-width: 100%;
+		}
+
+		.album_name{
+			font-size: 1.25rem;
+			width: 100%;
+			border-top: solid $bright-green 1px;
+		}
+
+		.album_artist{
+
 		}
 	}
 }
@@ -395,8 +406,16 @@ main{
 
 	.album_info{
 		color:$light-grey;
-		background-color: $mid-green-2;
 	}
+}
+
+
+.testArea{
+	position: absolute;
+	top: 5rem;
+	left: 5rem;
+	background-color: green;
+	z-index: 50;
 }
 
 

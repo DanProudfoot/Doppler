@@ -2,20 +2,31 @@ var React = require('react');
 var Reflux = require('reflux');
 var request = require('superagent');
 
-var songStore = Reflux.createStore({
-	
-	data: {song: []},
+var actions = require('../actions/actions');
 
-	init(){
-		request('http://46.101.0.118:3610/api/v1/Songs', (err, res) => {
-			this.data.song = res.body;
-			this.trigger(this.data);
-		})
+var songStore = Reflux.createStore({
+
+	data: {
+		song: [],
+		api:'http://46.101.0.118:3610/api/v1/Songs'
 	},
 
+	init(){
+		request(this.data.api, (err, res) => {
+			this.data.song = res.body;
+		});
+	},
+
+	listenables: actions,
+
+	onOpenAlbum(){
+		this.trigger({message: "Something Triggered"});
+	},
+
+
 	getInitialState(){
-		return this.data
+		return {message: "Initial State"};
 	}
-})
+});
 
 module.exports = songStore;
