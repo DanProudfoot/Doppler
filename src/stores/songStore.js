@@ -12,20 +12,38 @@ var songStore = Reflux.createStore({
 	},
 
 	init(){
-		request(this.data.api, (err, res) => {
-			this.data.song = res.body;
-		});
+		// request(this.data.api, (err, res) => {
+		// 	this.data.song = res.body;
+		// });
+		this.trigger(this.data)
 	},
 
 	listenables: actions,
 
-	onOpenAlbum(){
-		this.trigger({message: "Something Triggered"});
+	onOpenAlbumModal(data){
+		this.trigger({message: data});
+		this.modalOpen = true;
+		actions.getSongs(data);
+
 	},
 
+	onCloseAlbumModal(){
+		this.trigger({message: "Something Triggered"});
+		this.modalOpen = false;
+	},
+
+	onGetSongs(query){
+		this.trigger({query})
+		var queryBody = this.data.api + '?album=' + query;
+
+		request(queryBody, (err, res) => {
+			this.data.song = res.body;
+			console.log(this.data.song);
+		});
+	},
 
 	getInitialState(){
-		return {message: "Initial State"};
+		return this.data
 	}
 });
 

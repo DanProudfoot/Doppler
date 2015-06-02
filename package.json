@@ -9,13 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+
+  },
+  "devDependencies": {
     "6to5ify": "^4.1.1",
     "react": "^0.13.3",
     "reflux": "^0.2.7",
     "superagent": "^1.2.0",
-    "watchify": "^3.2.1"
-  },
-  "devDependencies": {
+    "watchify": "^3.2.1",
     "concurrent-transform": "^1.0.0",
     "gulp": "^3.8.11",
     "gulp-autoprefixer": "^2.3.0",

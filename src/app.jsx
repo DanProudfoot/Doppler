@@ -22,7 +22,7 @@ var AlbumTile = React.createClass({
 					backgroundImage: 'url(' + globalData.urlPath + album.artPath.replace(/ /g, "%20") + ')'
 				};
 				return(
-					<div key={album._id} className="album album-dark" onClick={actions.openAlbum}>
+					<div key={album._id} className="album album-dark" onClick={actions.openAlbumModal.bind(this, album.album)}>
 						<div className="album_image" style={style}>
 							<div className="album_info">
 								<div className="album_artist" title={album.albumArtist}> {album.albumArtist} </div>
@@ -40,19 +40,20 @@ var SelectorModal = React.createClass({
 
 	mixins: [Reflux.connect(songStore)],
 
-	getInitialState(){
-		return {modalOpen:false};
-	}
-
 	render(){
 		return(
 			<div className="testArea" >
 				<h1>{this.state.message}</h1>
+				{this.state.song.map(song => {
+					return(
+						<p>song.title </p>
+					)
+				})}
 			</div>
 		)
 	}
 
-})
+});
 
 var App = React.createClass({
 

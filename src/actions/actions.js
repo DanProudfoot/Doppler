@@ -1,7 +1,11 @@
 var Reflux = require('reflux');
 
 var actions = Reflux.createActions(
-	['openAlbum']
+	[
+	'openAlbumModal',
+	'closeAlbumModal',
+	'getSongs'
+	]
 )
 
 module.exports = actions;
