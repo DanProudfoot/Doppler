@@ -3,7 +3,6 @@
 
 var React = require("react");
 var Reflux = require("reflux");
-var request = require("superagent");
 
 var songStore = require("./stores/songStore.js");
 var albumStore = require("./stores/albumStore.js");
@@ -79,7 +78,7 @@ var SelectorModal = React.createClass({
 				return React.createElement(
 					"p",
 					null,
-					"song.title "
+					song.songTitle
 				);
 			})
 		);
@@ -103,7 +102,7 @@ var App = React.createClass({
 
 React.render(React.createElement(App, null), document.getElementById("main"));
 
-},{"./actions/actions.js":181,"./stores/albumStore.js":182,"./stores/songStore.js":183,"react":156,"reflux":157,"superagent":177}],2:[function(require,module,exports){
+},{"./actions/actions.js":181,"./stores/albumStore.js":182,"./stores/songStore.js":183,"react":156,"reflux":157}],2:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -22622,12 +22621,7 @@ var songStore = Reflux.createStore({
 		api: "http://46.101.0.118:3610/api/v1/Songs"
 	},
 
-	init: function init() {
-		// request(this.data.api, (err, res) => {
-		// 	this.data.song = res.body;
-		// });
-		this.trigger(this.data);
-	},
+	init: function init() {},
 
 	listenables: actions,
 
@@ -22645,11 +22639,12 @@ var songStore = Reflux.createStore({
 	onGetSongs: function onGetSongs(query) {
 		var _this = this;
 		this.trigger({ query: query });
+		query = query.replace("&", "and");
 		var queryBody = this.data.api + "?album=" + query;
 
 		request(queryBody, function (err, res) {
 			_this.data.song = res.body;
-			console.log(_this.data.song);
+			_this.trigger(_this.data);
 		});
 	},
 
@@ -22659,5 +22654,6 @@ var songStore = Reflux.createStore({
 });
 
 module.exports = songStore;
+// console.log(this.data.song);
 
 },{"../actions/actions":181,"react":156,"reflux":157,"superagent":177}]},{},[1]);

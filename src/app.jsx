@@ -1,6 +1,5 @@
 var React = require('react');
 var Reflux = require('reflux');
-var request = require('superagent');
 
 var songStore = require('./stores/songStore.js');
 var albumStore = require('./stores/albumStore.js');
@@ -46,7 +45,7 @@ var SelectorModal = React.createClass({
 				<h1>{this.state.message}</h1>
 				{this.state.song.map(song => {
 					return(
-						<p>song.title </p>
+						<p>{song.songTitle}</p>
 					)
 				})}
 			</div>

@@ -12,10 +12,7 @@ var songStore = Reflux.createStore({
 	},
 
 	init(){
-		// request(this.data.api, (err, res) => {
-		// 	this.data.song = res.body;
-		// });
-		this.trigger(this.data)
+
 	},
 
 	listenables: actions,
@@ -33,12 +30,14 @@ var songStore = Reflux.createStore({
 	},
 
 	onGetSongs(query){
-		this.trigger({query})
+		this.trigger({query});
+		query = query.replace("&", "and");
 		var queryBody = this.data.api + '?album=' + query;
 
 		request(queryBody, (err, res) => {
 			this.data.song = res.body;
-			console.log(this.data.song);
+			this.trigger(this.data)
+			// console.log(this.data.song);
 		});
 	},
 
