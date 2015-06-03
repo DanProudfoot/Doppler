@@ -6,7 +6,8 @@ var albumStore = Reflux.createStore({
 	
 	data: {
 		album: [],
-		api:'http://46.101.0.118:3610/api/v1/Albums'
+		api:'http://46.101.0.118:3610/api/v1/Albums',
+		urlPath:"http://46.101.0.118:3610/"
 	},
 
 	init(){
