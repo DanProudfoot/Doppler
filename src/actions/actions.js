@@ -6,7 +6,14 @@ var actions = Reflux.createActions(
 	'closeAlbumModal',
 	'getSongs',
 	'addToPlaylist',
-	'playThis'
+	'playThis',
+	'play',
+	'pause',
+	'fwd',
+	'prev',
+	'songLoaded',
+	'songEnded',
+	'readyPlay'
 	]
 )
 

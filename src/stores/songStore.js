@@ -8,11 +8,8 @@ var songStore = Reflux.createStore({
 
 	data: {
 		song: [],
-		api:'http://46.101.0.118:3610/api/v1/Songs'
-	},
-
-	init(){
-
+		api:'http://46.101.0.118:3610/api/v1/Songs',
+		modalOpen: false
 	},
 
 	listenables: actions,
@@ -21,23 +18,16 @@ var songStore = Reflux.createStore({
 		this.trigger({message: data});
 		this.modalOpen = true;
 		actions.getSongs(data);
-
-	},
-
-	onCloseAlbumModal(){
-		this.trigger({message: "Something Triggered"});
-		this.modalOpen = false;
 	},
 
 	onGetSongs(query){
-		this.trigger({query});
+		//this.trigger({query});
 		query = query.replace("&", "and");
 		var queryBody = this.data.api + '?album=' + query;
 
 		request(queryBody, (err, res) => {
 			this.data.song = res.body;
 			this.trigger(this.data)
-			// console.log(this.data.song);
 		});
 	},
 

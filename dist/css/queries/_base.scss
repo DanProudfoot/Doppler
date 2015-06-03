@@ -160,7 +160,7 @@ nav{
 	}
 }
 
-.bottom_bar{
+.audio_player{
 	z-index: 10;
 	width: 100%;
 	//border-top: $border-green;
@@ -170,10 +170,11 @@ nav{
 	height: $unit;
 	background-color: rgba(black,0.9);
 	padding: 0.5rem 0;
+	border-top: solid 1px $bright-green;
 
 	.now_playing-title{
 		flex:1;
-		padding-left: $sbpush;
+		padding-left:2rem;
 		font-size: 1.25rem;
 		font-weight: 300;
 		align-items: center;
@@ -332,6 +333,10 @@ main{
 
 }
 
+#main{
+	padding-bottom: 4rem;
+}
+
 .cover_list{
 	width: 100%;
 	padding: $unit 0;
@@ -348,6 +353,7 @@ main{
 		margin: 0;
 		flex: 1 300px;
 		min-width: 10rem;
+		max-width: 25%;
 	}
 }
 
@@ -393,6 +399,42 @@ main{
 		}
 	}
 }
+
+.songModal{
+	position: fixed;
+	bottom: 4rem;
+	left: 2rem;
+	background-color: $light-grey;
+	padding: 2rem;
+	border: solid 1px $dark-green;
+
+	.songsTable{
+		user-select: none;
+
+		th{
+			text-align: left;
+			padding: 0.5rem;
+		}
+		
+		.tableRow{
+			cursor: pointer;
+			
+			&:hover{
+				background-color: rgba(black,0.5);
+			}
+
+			.tableCell{
+				padding: 0.5rem;
+
+				&.cellDuration{
+					text-align: right;
+				}
+
+			}
+		}
+	}
+}
+
 
 .album-light{
 
