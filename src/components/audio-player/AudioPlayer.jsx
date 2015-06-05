@@ -17,14 +17,14 @@ var AudioPlayer = React.createClass({
 			<div className="audio_player flex">
 
 				<div className="now_playing-title light-text flex">
-					<span className="now_playing-song">Example</span>
+					<span className="now_playing-song">{this.state.playingState.songTitle}</span>
 					<span>&nbsp;-&nbsp;</span>
-					<span className="now_playing-artist">Example Artist</span>
+					<span className="now_playing-artist">{this.state.playingState.albumArtist}</span>
 				</div>
 				<div className="now_playing-time light-text flex">
 					<span className="now_playing-elapsed">0:00</span>
 					<span>&nbsp;/&nbsp;</span>
-					<span className="now_playing-total">0:00</span>
+					<span className="now_playing-total">{this.state.playingState.duration}</span>
 				</div>
 				<div className="controls flex">
 					<span className="action-rwd icon icon-rwd" onClick={actions.prev}></span>

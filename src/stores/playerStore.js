@@ -30,7 +30,13 @@ var playerStore = Reflux.createStore({
 		isPlaying: false,
 		isLoading: false,
 		volume: 0.5,
-		isLoading: false
+		isLoading: false,
+		playingState: {
+			songTitle: "",
+			albumArtist: "",
+			duration: "",
+			albumArt: ""
+		}
 	},
 
 	listenables: actions,
@@ -39,15 +45,16 @@ var playerStore = Reflux.createStore({
 			return this.data
 	},
 
-	nowPlaying(){
-
+	update(){
+		this.data.playingState.songTitle = this.data.playlist[this.data.playlistIndex].songTitle;
+		this.data.playingState.albumArtist = this.data.playlist[this.data.playlistIndex].albumArtist;
 	},
 
 	onPlayThis(song){
+		this.clearSound();
 		song.path = this.data.urlPath + song.path;
-		//console.log(song.path);
 		this.data.playlistIndex = this.data.playlist.push(song) - 1;
-		console.log(this.data.playlist[this.data.playlistIndex].path)
+		//console.log(this.data.playlist[this.data.playlistIndex].path)
 		this.data.isPlaying = true;
 		actions.readyPlay();
 	},
@@ -72,13 +79,17 @@ var playerStore = Reflux.createStore({
 
 	onFwd(){
 		if (this.data.playlistIndex < this.data.playlist.length - 1) {
-			this.data.playlistIndex ++
+			this.data.playlistIndex ++;
+			this.clearSound();
+			actions.readyPlay();
 		};
 	},
 
 	onPrev(){
 		if (this.data.playlistIndex > 0) {
-			this.data.playlistIndex --
+			this.data.playlistIndex --;
+			this.clearSound();
+			actions.readyPlay();
 		};
 	},
 
@@ -97,9 +108,16 @@ var playerStore = Reflux.createStore({
 			src: song,
 			volume: this.data.volume,
 			onload: actions.songLoaded,
-			onend: actions.songEnded
+			onend: actions.songEnded,
+			html5: true
 		});
-		console.log(this.howler);
+	},
+
+	clearSound(){
+		if (this.howler){
+			this.howler.stop();
+			this.howler = null;
+		}
 	}
 
 	

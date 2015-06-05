@@ -334,7 +334,8 @@ main{
 }
 
 #main{
-	padding-bottom: 4rem;
+	padding-bottom: $unit;
+	background-color: black;
 }
 
 .cover_list{

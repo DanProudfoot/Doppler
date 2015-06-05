@@ -23614,7 +23614,7 @@ var AudioPlayer = React.createClass({
 				React.createElement(
 					"span",
 					{ className: "now_playing-song" },
-					"Example"
+					this.state.playingState.songTitle
 				),
 				React.createElement(
 					"span",
@@ -23624,7 +23624,7 @@ var AudioPlayer = React.createClass({
 				React.createElement(
 					"span",
 					{ className: "now_playing-artist" },
-					"Example Artist"
+					this.state.playingState.albumArtist
 				)
 			),
 			React.createElement(
@@ -23643,7 +23643,7 @@ var AudioPlayer = React.createClass({
 				React.createElement(
 					"span",
 					{ className: "now_playing-total" },
-					"0:00"
+					this.state.playingState.duration
 				)
 			),
 			React.createElement(
@@ -25388,7 +25388,13 @@ var playerStore = Reflux.createStore({
 		isPlaying: false,
 		isLoading: false,
 		volume: 0.5,
-		isLoading: false
+		isLoading: false,
+		playingState: {
+			songTitle: "",
+			albumArtist: "",
+			duration: "",
+			albumArt: ""
+		}
 	},
 
 	listenables: actions,
@@ -25397,13 +25403,16 @@ var playerStore = Reflux.createStore({
 		return this.data;
 	},
 
-	nowPlaying: function nowPlaying() {},
+	update: function update() {
+		this.data.playingState.songTitle = this.data.playlist[this.data.playlistIndex].songTitle;
+		this.data.playingState.albumArtist = this.data.playlist[this.data.playlistIndex].albumArtist;
+	},
 
 	onPlayThis: function onPlayThis(song) {
+		this.clearSound();
 		song.path = this.data.urlPath + song.path;
-		//console.log(song.path);
 		this.data.playlistIndex = this.data.playlist.push(song) - 1;
-		console.log(this.data.playlist[this.data.playlistIndex].path);
+		//console.log(this.data.playlist[this.data.playlistIndex].path)
 		this.data.isPlaying = true;
 		actions.readyPlay();
 	},
@@ -25429,12 +25438,16 @@ var playerStore = Reflux.createStore({
 	onFwd: function onFwd() {
 		if (this.data.playlistIndex < this.data.playlist.length - 1) {
 			this.data.playlistIndex++;
+			this.clearSound();
+			actions.readyPlay();
 		};
 	},
 
 	onPrev: function onPrev() {
 		if (this.data.playlistIndex > 0) {
 			this.data.playlistIndex--;
+			this.clearSound();
+			actions.readyPlay();
 		};
 	},
 
@@ -25452,9 +25465,16 @@ var playerStore = Reflux.createStore({
 			src: song,
 			volume: this.data.volume,
 			onload: actions.songLoaded,
-			onend: actions.songEnded
+			onend: actions.songEnded,
+			html5: true
 		});
-		console.log(this.howler);
+	},
+
+	clearSound: function clearSound() {
+		if (this.howler) {
+			this.howler.stop();
+			this.howler = null;
+		}
 	}
 
 
