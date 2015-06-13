@@ -426,6 +426,10 @@ main{
 
 			.tableCell{
 				padding: 0.5rem;
+				max-width: 20rem;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 
 				&.cellDuration{
 					text-align: right;

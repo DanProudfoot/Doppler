@@ -1,5 +1,5 @@
 #README
-=============
+----------------
 
 In its current state, Doppler is made up of three components. 
 * The Scanner

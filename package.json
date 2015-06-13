@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "watchify -t 6to5ify ./src/app.jsx -o ./dist/js/bundle.js -v"
+    "watch": "watchify -t 6to5ify ./src/app.jsx -o ./dist/js/bundle.js -v",
+    "sass": "gulp watch",
+    "build": "npm run watch & npm run sass"
   },
   "author": "",
   "license": "ISC",
@@ -12,8 +14,6 @@
     "browserify-middleware": "^5.0.2",
     "cors": "^2.7.1",
     "express": "^4.12.4",
-    "node-jsx": "^0.13.3",
-    "react-engine": "^1.6.0",
     "react-router": "^0.13.3",
     "reactable": "^0.10.1"
   },

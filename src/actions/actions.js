@@ -13,7 +13,9 @@ var actions = Reflux.createActions(
 	'prev',
 	'songLoaded',
 	'songEnded',
-	'readyPlay'
+	'readyPlay',
+	'playAlbumFromHere',
+	'clearSound'
 	]
 )
 

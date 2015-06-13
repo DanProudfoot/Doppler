@@ -12,6 +12,6 @@ app.get('/', function(req, res) {
     res.render('index.html');
 });
 
-var server = app.listen(process.env.PORT || 4444, function() {
+var server = app.listen(process.env.PORT || 80, function() {
 	console.log('\nServer ready on port %d\n', server.address().port);
 });
