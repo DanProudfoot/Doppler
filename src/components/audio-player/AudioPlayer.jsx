@@ -7,10 +7,12 @@ var actions = require('../../actions/actions.js');
 
 var Howl = require('../../howler');
 
+var timeFormat = require('../../mixins/timeFormatMixin.js');
+
 
 var AudioPlayer = React.createClass({
 
-	mixins:[Reflux.connect(playerStore)],
+	mixins:[Reflux.connect(playerStore), timeFormat],
 
 	render(){
 		return(
@@ -22,9 +24,11 @@ var AudioPlayer = React.createClass({
 					<span className="now_playing-artist">{this.state.playingState.albumArtist}</span>
 				</div>
 				<div className="now_playing-time light-text flex">
-					<span className="now_playing-elapsed">0:00</span>
+					<span className="now_playing-elapsed">{this.convertToHumanTime(this.state.playingState.position)}
+</span>
 					<span>&nbsp;/&nbsp;</span>
-					<span className="now_playing-total">{this.state.playingState.duration}</span>
+					<span className="now_playing-total">{this.convertToHumanTime(this.state.playingState.duration)}
+</span>
 				</div>
 				<div className="controls flex">
 					<span className="action-rwd icon icon-rwd" onClick={actions.prev}></span>
@@ -35,7 +39,6 @@ var AudioPlayer = React.createClass({
 			</div>
 		)
 	}
-
 });
 
 module.exports = AudioPlayer;

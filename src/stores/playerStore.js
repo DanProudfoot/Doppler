@@ -24,6 +24,8 @@ console.log(Howler.ctx.destination.maxChannelCount + " Channels Available"); // 
 var playerStore = Reflux.createStore({
 
 	data: {
+		playlist: [],
+		playlistIndex: 0,
 		api:'http://46.101.0.118:3610/api/v1/Songs',
 		urlPath:"http://46.101.0.118:3610/",
 		isPlaying: false,
@@ -33,8 +35,9 @@ var playerStore = Reflux.createStore({
 		playingState: {
 			songTitle: "",
 			albumArtist: "",
-			duration: "",
-			albumArt: ""
+			duration: 0,
+			albumArt: "",
+			position: 0
 		}
 	},
 
@@ -50,15 +53,24 @@ var playerStore = Reflux.createStore({
 			return this.data
 	},
 
-	updatePlayer(){
-		this.data.playingState.songTitle = this.list.playlist[this.list.playlistIndex].songTitle;
-		this.data.playingState.albumArtist = this.list.playlist[this.list.playlistIndex].albumArtist;
+	onUpdatePlayer(){
+		this.data.playingState.songTitle = this.data.playlist[this.data.playlistIndex].songTitle;
+		this.data.playingState.albumArtist = this.data.playlist[this.data.playlistIndex].albumArtist;
+		this.data.playingState.duration = this.data.playlist[this.data.playlistIndex].duration;	
+		this.trigger(this.data);
+	},
+
+	onUpdateTime(){
+		this.data.playingState.position = this.howler.seek();
+		this.trigger(this.data);
+		//console.log(this.data.playingState.position);
 	},
 
 	onPlayThis(song){
+		song.path = this.data.urlPath + song.path
+		this.data.playlistIndex = this.data.playlist.push(song) - 1;
 		actions.clearSound();
 		actions.addToPlaylist.bind(this, song)
-		song.path = this.data.urlPath + song.path;
 		this.data.isPlaying = true;
 		actions.readyPlay();
 	},
@@ -78,23 +90,23 @@ var playerStore = Reflux.createStore({
 	},
 
 	onFwd(){
-		if (this.list.playlistIndex < this.list.playlist.length - 1) {
-			this.list.playlistIndex ++;
+		if (this.data.playlistIndex < this.data.playlist.length - 1) {
+			this.data.playlistIndex ++;
 			actions.clearSound();
 			actions.readyPlay();
 		};
 	},
 
 	onPrev(){
-		if (this.list.playlistIndex > 0) {
-			this.list.playlistIndex --;
+		if (this.data.playlistIndex > 0) {
+			this.data.playlistIndex --;
 			actions.clearSound();
 			actions.readyPlay();
 		};
 	},
 
 	onReadyPlay(){
-		this.initSound(this.list.playlist[this.list.playlistIndex].path);
+		this.initSound(this.data.playlist[this.data.playlistIndex].path);
 	},
 	
 	initSound(song){
@@ -114,7 +126,12 @@ var playerStore = Reflux.createStore({
 		if (this.data.isPlaying) {
 			this.howler.play();
 			this.data.isLoading = false;
+			setInterval(function(){
+				actions.updateTime();
+			}, 200)
 		};
+		actions.updatePlayer();
+		
 	},
 
 	onClearSound(){

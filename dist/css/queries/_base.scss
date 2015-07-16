@@ -336,6 +336,7 @@ main{
 #main{
 	padding-bottom: $unit;
 	background-color: black;
+	min-height: 100%;
 }
 
 .cover_list{
@@ -352,9 +353,9 @@ main{
 
 	>div{
 		margin: 0;
-		flex: 1 300px;
+		flex: 1 (100% / 6);
 		min-width: 10rem;
-		max-width: 25%;
+		max-width: (100% / 6);
 	}
 }
 
