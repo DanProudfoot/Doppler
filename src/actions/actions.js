@@ -15,6 +15,7 @@ var actions = Reflux.createActions(
 	'songEnded',
 	'readyPlay',
 	'playAlbumFromHere',
+	'playAlbum',
 	'clearSound',
 	'updatePlayer',
 	'updateTime'

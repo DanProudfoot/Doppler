@@ -25485,7 +25485,7 @@ process.umask = function() { return 0; };
 
 var Reflux = require("reflux");
 
-var actions = Reflux.createActions(["openAlbumModal", "closeAlbumModal", "getSongs", "addToPlaylist", "playThis", "play", "pause", "fwd", "prev", "songLoaded", "songEnded", "readyPlay", "playAlbumFromHere", "clearSound", "updatePlayer", "updateTime"]);
+var actions = Reflux.createActions(["openAlbumModal", "closeAlbumModal", "getSongs", "addToPlaylist", "playThis", "play", "pause", "fwd", "prev", "songLoaded", "songEnded", "readyPlay", "playAlbumFromHere", "playAlbum", "clearSound", "updatePlayer", "updateTime"]);
 
 module.exports = actions;
 
@@ -25604,42 +25604,67 @@ var SelectorModal = React.createClass({
 
 	render: function render() {
 		var _this = this;
+		var modalStyle = {
+			visible: {
+				visibility: "visible",
+				opacity: "1"
+			},
+			hidden: {
+				visibility: "hidden",
+				opacity: "0"
+			}
+		};
+		var overlayStyle = {
+			visible: {
+				visibility: "visible",
+				opacity: "1"
+			},
+			hidden: {
+				visibility: "hidden",
+				opacity: "0"
+			}
+		};
 		return React.createElement(
 			"div",
-			{ className: "songModal" },
+			null,
+			React.createElement("div", { className: "modalOverlay", style: this.state.modalOpen ? overlayStyle.visible : overlayStyle.hidden, onClick: actions.closeAlbumModal }),
 			React.createElement(
-				"h1",
-				null,
-				this.state.message
-			),
-			React.createElement(
-				Table,
-				{
-					className: "songsTable",
-					columns: ["#", "Track", "Duration"],
-					defaultSort: { column: "#", direction: "asc" }
-				},
-				this.state.song.map(function (song) {
-					return React.createElement(
-						Tr,
-						{ key: "{song._id}", className: "tableRow", onDoubleClick: actions.playThis.bind(_this, song) },
-						React.createElement(
-							Td,
-							{ className: "tableCell", column: "#" },
-							song.track
-						),
-						React.createElement(
-							Td,
-							{ className: "tableCell cellTitle", column: "Track" },
-							song.songTitle
-						),
-						React.createElement(
-							Td,
-							{ className: "tableCell cellDuration", column: "Duration" },
-							_this.convertToHumanTime(song.duration)
-						)
-					);
-				})
+				"div",
+				{ className: "songModal", style: this.state.modalOpen ? modalStyle.visible : modalStyle.hidden },
+				React.createElement(
+					"h1",
+					null,
+					this.state.song[0] ? this.state.song[0].album : null
+				),
+				React.createElement(
+					Table,
+					{
+						className: "songsTable",
+						columns: ["#", "Track", "Duration"],
+						defaultSort: { column: "#", direction: "asc" }
+					},
+					this.state.song.map(function (song) {
+						return React.createElement(
+							Tr,
+							{ key: "{song._id}", className: "tableRow", onDoubleClick: actions.playThis.bind(_this, song) },
+							React.createElement(
+								Td,
+								{ className: "tableCell", column: "#" },
+								song.track
+							),
+							React.createElement(
+								Td,
+								{ className: "tableCell cellTitle", column: "Track" },
+								song.songTitle
+							),
+							React.createElement(
+								Td,
+								{ className: "tableCell cellDuration", column: "Duration" },
+								_this.convertToHumanTime(song.duration)
+							)
+						);
+					})
+				)
 			)
 		);
 	}
@@ -27496,6 +27521,8 @@ var playerStore = Reflux.createStore({
 		actions.readyPlay();
 	},
 
+	onPlayAlbumFromHere: function onPlayAlbumFromHere() {},
+
 	onPlay: function onPlay() {
 		if (!this.data.isPlaying) {
 			this.howler.play();
@@ -27613,15 +27640,19 @@ var songStore = Reflux.createStore({
 
 	listenables: actions,
 
-	onOpenAlbumModal: function onOpenAlbumModal(data) {
-		this.trigger({ message: data });
-		this.modalOpen = true;
-		actions.getSongs(data);
+	onOpenAlbumModal: function onOpenAlbumModal(song) {
+		actions.getSongs(song);
+		this.data.modalOpen = true;
+		this.trigger(this.data);
+	},
+
+	onCloseAlbumModal: function onCloseAlbumModal() {
+		this.data.modalOpen = false;
+		this.trigger(this.data);
 	},
 
 	onGetSongs: function onGetSongs(query) {
 		var _this = this;
-		//this.trigger({query});
 		query = query.replace("&", "and");
 		var queryBody = this.data.api + "?album=" + query;
 

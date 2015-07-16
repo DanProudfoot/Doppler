@@ -75,6 +75,10 @@ var playerStore = Reflux.createStore({
 		actions.readyPlay();
 	},
 
+	onPlayAlbumFromHere(){
+
+	},
+
 	onPlay(){
 		if(!this.data.isPlaying){
 			this.howler.play();

@@ -14,14 +14,18 @@ var songStore = Reflux.createStore({
 
 	listenables: actions,
 
-	onOpenAlbumModal(data){
-		this.trigger({message: data});
-		this.modalOpen = true;
-		actions.getSongs(data);
+	onOpenAlbumModal(song){
+		actions.getSongs(song);
+		this.data.modalOpen = true;
+		this.trigger(this.data);
+	},
+
+	onCloseAlbumModal(){
+		this.data.modalOpen = false;
+		this.trigger(this.data);
 	},
 
 	onGetSongs(query){
-		//this.trigger({query});
 		query = query.replace("&", "and");
 		var queryBody = this.data.api + '?album=' + query;
 
