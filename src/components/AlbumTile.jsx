@@ -8,10 +8,6 @@ var AlbumTile = React.createClass({
 	
 	mixins: [Reflux.connect(albumStore)],
 
-	onOpenAlbumModal(){
-
-	},
-
 	render() {
 		return (<div className="cover_container flex row-5">
 			{this.state.album.map(album => {

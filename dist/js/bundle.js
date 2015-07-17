@@ -25537,8 +25537,6 @@ var AlbumTile = React.createClass({
 
 	mixins: [Reflux.connect(albumStore)],
 
-	onOpenAlbumModal: function onOpenAlbumModal() {},
-
 	render: function render() {
 		var _this = this;
 		return React.createElement(
@@ -25604,17 +25602,7 @@ var SelectorModal = React.createClass({
 
 	render: function render() {
 		var _this = this;
-		var modalStyle = {
-			visible: {
-				visibility: "visible",
-				opacity: "1"
-			},
-			hidden: {
-				visibility: "hidden",
-				opacity: "0"
-			}
-		};
-		var overlayStyle = {
+		var visibility = {
 			visible: {
 				visibility: "visible",
 				opacity: "1"
@@ -25627,10 +25615,10 @@ var SelectorModal = React.createClass({
 		return React.createElement(
 			"div",
 			null,
-			React.createElement("div", { className: "modalOverlay", style: this.state.modalOpen ? overlayStyle.visible : overlayStyle.hidden, onClick: actions.closeAlbumModal }),
+			React.createElement("div", { className: "modalOverlay", style: this.state.modalOpen ? visibility.visible : visibility.hidden, onClick: actions.closeAlbumModal }),
 			React.createElement(
 				"div",
-				{ className: "songModal", style: this.state.modalOpen ? modalStyle.visible : modalStyle.hidden },
+				{ className: "songModal", style: this.state.modalOpen ? visibility.visible : visibility.hidden },
 				React.createElement(
 					"h1",
 					null,
@@ -25694,6 +25682,12 @@ var AudioPlayer = React.createClass({
 	mixins: [Reflux.connect(playerStore), timeFormat],
 
 	render: function render() {
+		var visibility = {
+			visible: {
+				display: "block" },
+			hidden: {
+				display: "none" }
+		};
 		return React.createElement(
 			"div",
 			{ className: "audio_player flex" },
@@ -25739,8 +25733,8 @@ var AudioPlayer = React.createClass({
 				"div",
 				{ className: "controls flex" },
 				React.createElement("span", { className: "action-rwd icon icon-rwd", onClick: actions.prev }),
-				React.createElement("span", { className: "action-play icon icon-play", onClick: actions.play }),
-				React.createElement("span", { className: "action-pause icon icon-pause", onClick: actions.pause }),
+				React.createElement("span", { className: "action-play icon icon-play", style: this.state.isPlaying ? visibility.hidden : visibility.visible, onClick: actions.play }),
+				React.createElement("span", { className: "action-pause icon icon-pause", style: this.state.isPlaying ? visibility.visible : visibility.hidden, onClick: actions.pause }),
 				React.createElement("span", { className: "action-fwd icon icon-fwd", onClick: actions.fwd })
 			)
 		);

@@ -15,17 +15,7 @@ var SelectorModal = React.createClass({
 	mixins: [Reflux.connect(songStore), timeFormat],
 
 	render(){
-		var modalStyle = {
-			visible: {
-				visibility: "visible",
-				opacity: '1'
-			},
-			hidden: {
-				visibility: "hidden",
-				opacity: "0"
-			}
-		};
-		var overlayStyle = {
+		var visibility = {
 			visible: {
 				visibility: "visible",
 				opacity: '1'
@@ -37,8 +27,8 @@ var SelectorModal = React.createClass({
 		};
 		return(
 			<div> 
-				<div className="modalOverlay" style={this.state.modalOpen ? overlayStyle.visible : overlayStyle.hidden} onClick={actions.closeAlbumModal}/>	
-				<div className="songModal" style={this.state.modalOpen ? modalStyle.visible : modalStyle.hidden}>
+				<div className="modalOverlay" style={this.state.modalOpen ? visibility.visible : visibility.hidden} onClick={actions.closeAlbumModal}/>	
+				<div className="songModal" style={this.state.modalOpen ? visibility.visible : visibility.hidden}>
 					<h1>{this.state.song[0] ? this.state.song[0].album : null}</h1>
 					<Table 
 						className="songsTable" 

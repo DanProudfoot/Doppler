@@ -15,6 +15,14 @@ var AudioPlayer = React.createClass({
 	mixins:[Reflux.connect(playerStore), timeFormat],
 
 	render(){
+		var visibility = {
+			visible: {
+				display: "block",
+			},
+			hidden: {
+				display: "none",
+			}
+		};
 		return(
 			<div className="audio_player flex">
 
@@ -30,8 +38,8 @@ var AudioPlayer = React.createClass({
 				</div>
 				<div className="controls flex">
 					<span className="action-rwd icon icon-rwd" onClick={actions.prev}></span>
-					<span className="action-play icon icon-play" onClick={actions.play}></span>
-					<span className="action-pause icon icon-pause" onClick={actions.pause}></span>
+					<span className="action-play icon icon-play" style={this.state.isPlaying ? visibility.hidden : visibility.visible} onClick={actions.play}></span>
+					<span className="action-pause icon icon-pause" style={this.state.isPlaying ? visibility.visible : visibility.hidden} onClick={actions.pause}></span>
 					<span className="action-fwd icon icon-fwd" onClick={actions.fwd}></span>
 				</div>
 			</div>

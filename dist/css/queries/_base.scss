@@ -3,6 +3,20 @@
 	flex-wrap: wrap;
 }
 
+@function makeLongShadow($color, $length) {
+	$t-start: 0.7;
+	$t-end: 0.1;
+	$val: drop-shadow(rgba($color, $t-start) 0px 0px);
+	@for $i from 1 through $length{
+		$val: #{$val} drop-shadow(rgba($color, $t-start - $i * ($t-start / $length)) #{$i}px #{$i}px) 
+	}
+	@return $val;
+}
+
+@mixin longShadow($color, $length){
+	filter: makeLongShadow($color, $length);
+}
+
 img{
 	max-width: 100%;
 }
@@ -130,8 +144,6 @@ nav{
 					background-color: rgba($bright-green,1);
 				}
 			}
-
-
 
 			&:hover{
 				background-color: rgba($mid-green-1,1);
@@ -362,6 +374,14 @@ main{
 .album{
 	user-select: none;
 	cursor: pointer;
+	transition: $transition;
+	position: relative;
+
+	&:hover{
+		// @include longShadow($dark-green, 15);
+		// z-index: 30;
+		// transform: translate(-30px, -30px);
+	}
 
 	.album_image{
 		overflow: hidden;
@@ -485,12 +505,20 @@ main{
 	height: 2rem;
 	width: 2rem;
 	position: relative;
+	transition: $transition;
+	cursor: pointer;
 
 	&:before{
 		content: "";
 		height: 100%;
 		width: 100%;
 		position: absolute;
+	}
+	
+	
+
+	&:hover{
+		@include longShadow($dark-green, 20);
 	}
 }
 
